@@ -8,6 +8,7 @@ public class Dot : MonoBehaviour
      public int row;
      public int targetX;
      public int targetY;
+     public bool isMatched = false;
      private Board board;
      private GameObject otherDot;
      private Vector2 firstTouchPosition;
@@ -27,6 +28,12 @@ public class Dot : MonoBehaviour
      }
      private void Update()
      {
+          FindMatches();
+          if (isMatched)
+          {
+               SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
+               mySprite.color = new Color(0f, 0f, 0f, .2f);
+          }
           targetX = column;
           targetY = row;
           if (Mathf.Abs(targetX - transform.position.x) > moveAccuracy)
@@ -101,6 +108,31 @@ public class Dot : MonoBehaviour
                otherDot = board.allDots[column, row - 1];
                otherDot.GetComponent<Dot>().row += 1;
                row -= 1;
+          }
+     }
+     private void FindMatches()
+     {
+          if (column > 0 && column < board.width - 1)
+          {
+               GameObject leftDot1 = board.allDots[column - 1, row];
+               GameObject rightDot1 = board.allDots[column + 1, row];
+               if (leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag)
+               {
+                    leftDot1.GetComponent<Dot>().isMatched = true;
+                    rightDot1.GetComponent<Dot>().isMatched = true;
+                    isMatched = true;
+               }
+          }
+          if (row > 0 && row < board.height - 1)
+          {
+               GameObject downDot1 = board.allDots[column, row - 1];
+               GameObject upDot1 = board.allDots[column, row + 1];
+               if (downDot1.tag == this.gameObject.tag && upDot1.tag == this.gameObject.tag)
+               {
+                    downDot1.GetComponent<Dot>().isMatched = true;
+                    upDot1.GetComponent<Dot>().isMatched = true;
+                    isMatched = true;
+               }
           }
      }
 }

@@ -11,6 +11,7 @@ public class Board : MonoBehaviour
      public GameObject[] dotPrefabs;
      public GameObject[,] allDots;
      private BackgroundTile[,] allTiles;
+     private GameManager gameManager;
      private float rowDecreaseWaitTime = .4f;
      private float boardRefillWaitTime = .5f;
 
@@ -18,6 +19,7 @@ public class Board : MonoBehaviour
      {
           allTiles = new BackgroundTile[width, height];
           allDots = new GameObject[width, height];
+          gameManager = FindObjectOfType<GameManager>();
           SetUp();
      }
 
@@ -65,8 +67,10 @@ public class Board : MonoBehaviour
 
      private void DestroyMatchesAt(int column, int row)
      {
-          if (allDots[column, row].GetComponent<Dot>().isMatched)
+          Dot currentDot = allDots[column, row].GetComponent<Dot>();
+          if (currentDot.isMatched)
           {
+               gameManager.AddToScore(currentDot.scorePrice);
                Destroy(allDots[column, row]);
                allDots[column, row] = null;
           }
@@ -121,8 +125,7 @@ public class Board : MonoBehaviour
                          int dotToUse = Random.Range(0, dotPrefabs.Length);
                          GameObject dot = Instantiate(dotPrefabs[dotToUse], tempPosition, Quaternion.identity);
                          dot.transform.parent = this.transform;
-                         //dot.name = name;
-
+                         
                          allDots[i, j] = dot;
                     }
                }
@@ -135,9 +138,12 @@ public class Board : MonoBehaviour
           {
                for (int j = 0; j < height; j++)
                {
-                    if (allDots[i, j] == null && allDots[i, j].GetComponent<Dot>().isMatched)
+                    if (allDots[i, j] != null)
                     {
-                         return true;
+                         if (allDots[i, j].GetComponent<Dot>().isMatched)
+                         {
+                              return true;
+                         }
                     }
                }
           }

@@ -12,6 +12,7 @@ public class Dot : MonoBehaviour
      public int targetX;
      public int targetY;
      public bool isMatched = false;
+     public int scorePrice = 1;
 
      private Board board;
      private GameObject otherDot;
@@ -20,7 +21,7 @@ public class Dot : MonoBehaviour
      private Vector2 tempPosition;
      private float swipeAccuracy = 1f;
      private float moveAccuracy = .1f;
-     private float moveSpeed = .4f;
+     private float moveSpeed = .6f;
      public float swipeAngle = 0f;
      public float swipeRezist = 1f;
 
@@ -77,6 +78,7 @@ public class Dot : MonoBehaviour
                transform.position = tempPosition;
           }
      }
+
      public IEnumerator CheckMoveCo()
      {
           yield return new WaitForSeconds(.5f);

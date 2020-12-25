@@ -8,13 +8,14 @@ public class GameManager : MonoBehaviour
      public Text scoreText;
      public Text timerText;
      public GameObject gameOverUI;
+     public Board board;
      public Text finalScoreText;
      private float timerValue;
      private float scoreValue;
 
      private void Start()
      {
-          StartGame();
+          GameManagerSetUp();
      }
      private void Update()
      {
@@ -30,6 +31,14 @@ public class GameManager : MonoBehaviour
           UpdateTimer();
      }
 
+     private void GameManagerSetUp()
+     {
+          timerValue = 60f;
+          scoreValue = 0;
+          UpdateScore();
+          UpdateTimer();
+          gameOverUI.SetActive(false);
+     }
      public void AddToScore(int value)
      {
           if (timerValue > 0)
@@ -53,10 +62,7 @@ public class GameManager : MonoBehaviour
      }
      public void StartGame()
      {
-          timerValue = 60f;
-          scoreValue = 0;
-          UpdateScore();
-          UpdateTimer();
-          gameOverUI.SetActive(false);
-     }
+          GameManagerSetUp();
+          board.GenerateDots();
+     }    
 }

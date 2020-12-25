@@ -12,6 +12,7 @@ public class Board : MonoBehaviour
      public GameObject[,] allDots;
      private BackgroundTile[,] allTiles;
      private GameManager gameManager;
+     private SoundManager soundManager;
      private float rowDecreaseWaitTime = .4f;
      private float boardRefillWaitTime = .5f;
 
@@ -20,10 +21,11 @@ public class Board : MonoBehaviour
           allTiles = new BackgroundTile[width, height];
           allDots = new GameObject[width, height];
           gameManager = FindObjectOfType<GameManager>();
+          soundManager = FindObjectOfType<SoundManager>();
           SetUp();
      }
 
-     private void SetUp()
+     public void SetUp()
      {
           for (int i = 0; i < width; i++)
           {
@@ -34,6 +36,35 @@ public class Board : MonoBehaviour
                     GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
                     backgroundTile.transform.parent = this.transform;
                     backgroundTile.name = name;
+
+                    //int dotToUse = Random.Range(0, dotPrefabs.Length);
+                    //if (MatchesAt(i, j, dotPrefabs[dotToUse]))
+                    //{
+                    //     dotToUse++;
+                    //     dotToUse = dotToUse % dotPrefabs.Length;
+                    //}
+
+                    //GameObject dot = Instantiate(dotPrefabs[dotToUse], tempPosition, Quaternion.identity);
+                    //dot.transform.parent = this.transform;
+                    //dot.name = name;
+
+                    //allDots[i, j] = dot;
+               }
+          }
+          GenerateDots();
+     }
+     public void GenerateDots()
+     {
+          CleanBoard();
+          for (int i = 0; i < width; i++)
+          {
+               for (int j = 0; j < height; j++)
+               {
+                    string name = "( " + i + ", " + j + " )";
+                    Vector2 tempPosition = new Vector2(i, j);
+                    //GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
+                    //backgroundTile.transform.parent = this.transform;
+                    //backgroundTile.name = name;
 
                     int dotToUse = Random.Range(0, dotPrefabs.Length);
                     if (MatchesAt(i, j, dotPrefabs[dotToUse]))
@@ -50,7 +81,19 @@ public class Board : MonoBehaviour
                }
           }
      }
-
+     private void CleanBoard()
+     {
+          for (int i = 0; i < width; i++)
+          {
+               for (int j = 0; j < height; j++)
+               {
+                    if (allDots[i, j] != null)
+                    {
+                         Destroy(allDots[i, j]);
+                    }
+               }
+          }
+     }
      private bool MatchesAt(int column, int row, GameObject piece)
      {
           if (column > 1 && allDots[column - 1, row].tag == piece.tag && allDots[column - 2, row].tag == piece.tag)
@@ -70,6 +113,7 @@ public class Board : MonoBehaviour
           Dot currentDot = allDots[column, row].GetComponent<Dot>();
           if (currentDot.isMatched)
           {
+               soundManager.PlayDestroySound();
                gameManager.AddToScore(currentDot.scorePrice);
                Destroy(allDots[column, row]);
                allDots[column, row] = null;

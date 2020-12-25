@@ -14,6 +14,7 @@ public class Dot : MonoBehaviour
      public bool isMatched = false;
      public int scorePrice = 1;
 
+     //private GameManager gameManager;
      private Board board;
      private GameObject otherDot;
      private Vector2 firstTouchPosition;
@@ -27,6 +28,7 @@ public class Dot : MonoBehaviour
 
      private void Start()
      {
+          //gameManager = FindObjectOfType<GameManager>();
           board = FindObjectOfType<Board>();
           targetX = (int)transform.position.x;
           targetY = (int)transform.position.y;

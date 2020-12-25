@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+     //Independent development branch
      public int width;
      public int height;
      public GameObject tilePrefab;

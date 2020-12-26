@@ -36,19 +36,6 @@ public class Board : MonoBehaviour
                     GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
                     backgroundTile.transform.parent = this.transform;
                     backgroundTile.name = name;
-
-                    //int dotToUse = Random.Range(0, dotPrefabs.Length);
-                    //if (MatchesAt(i, j, dotPrefabs[dotToUse]))
-                    //{
-                    //     dotToUse++;
-                    //     dotToUse = dotToUse % dotPrefabs.Length;
-                    //}
-
-                    //GameObject dot = Instantiate(dotPrefabs[dotToUse], tempPosition, Quaternion.identity);
-                    //dot.transform.parent = this.transform;
-                    //dot.name = name;
-
-                    //allDots[i, j] = dot;
                }
           }
           GenerateDots();
@@ -62,10 +49,7 @@ public class Board : MonoBehaviour
                {
                     string name = "( " + i + ", " + j + " )";
                     Vector2 tempPosition = new Vector2(i, j);
-                    //GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
-                    //backgroundTile.transform.parent = this.transform;
-                    //backgroundTile.name = name;
-
+                    
                     int dotToUse = Random.Range(0, dotPrefabs.Length);
                     if (MatchesAt(i, j, dotPrefabs[dotToUse]))
                     {

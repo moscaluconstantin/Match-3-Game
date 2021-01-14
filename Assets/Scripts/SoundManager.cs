@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+     [Header("Permissions")]
+     public bool useBackgroundSound = true;
+     public bool useDestroySound = true;
+     public bool useSwapSound = true;
+
+     [Header("Sounds")]
      public AudioSource destroySound;
      public AudioSource swapSound;
      public AudioSource backgroundSound;
+
      private bool isPlaying;
 
      private void Start()
@@ -20,15 +27,21 @@ public class SoundManager : MonoBehaviour
 
      public void PlayDestroySound()
      {
-          destroySound.Play();
+          if (useDestroySound)
+          {
+               destroySound.Play();
+          }
      }
      public void PlaySwapSound()
      {
-          swapSound.Play();
+          if (useSwapSound)
+          {
+               swapSound.Play();
+          }
      }
      public void PlayBackgroundSound()
      {
-          if (!backgroundSound.isPlaying)
+          if (!backgroundSound.isPlaying && useBackgroundSound)
           {
                backgroundSound.Play();
           }

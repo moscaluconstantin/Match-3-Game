@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
      }
      private void UpdateScore()
      {
-          scoreText.text = "Score: " + scoreValue;
+          scoreText.text = "  Score: " + scoreValue;
      }
      private void UpdateTimer()
      {
@@ -58,11 +58,13 @@ public class GameManager : MonoBehaviour
      private void EndGame()
      {
           gameOverUI.SetActive(true);
+          board.currentState = GameState.wait;
           finalScoreText.text = scoreValue.ToString();
      }
      public void StartGame()
      {
           GameManagerSetUp();
           board.GenerateDots();
-     }    
+          board.currentState = GameState.move;
+     }
 }
